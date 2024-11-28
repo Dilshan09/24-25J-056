@@ -17,7 +17,13 @@ $humidity = $_POST['humidity'];
 $temperature = $_POST['temperature'];
 $light = $_POST['light'];
 
-
+// Prepare and execute SQL query
+$sql = "INSERT INTO sensor_data (humidity, temperature, light) VALUES ('$humidity', '$temperature', '$light')";
+if ($conn->query($sql) === TRUE) {
+  echo "Data inserted successfully";
+} else {
+  echo "Error: " . $sql . "<br>" . $conn->error;
+}
 
 $conn->close();
 ?>
