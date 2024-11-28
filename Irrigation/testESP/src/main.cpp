@@ -190,4 +190,36 @@ void calculateAverageAndControlMotor() {
   lightReadings.clear();
 }
 
+// Function to send data to server
+void sendDataToServer(int id, float h, float t, int lightVal) {
+  if (WiFi.status() == WL_CONNECTED) {
+    HTTPClient http;
 
+    // Your server IP or domain name with the PHP file
+    String serverName = "http://192.168.8.142/oneESP/src/insert_data.php";
+
+    http.begin(serverName);
+
+    http.addHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    // Prepare the data to send in POST request
+    String httpRequestData = "flowerid=" + String(id) + "&humidity=" + String(h) + "&temperature=" + String(t) + "&light=" + String(lightVal);
+
+    // Send POST request
+    int httpResponseCode = http.POST(httpRequestData);
+
+    // Check for response
+    if (httpResponseCode > 0) {
+      String response = http.getString();
+      Serial.println("HTTP Response code: " + String(httpResponseCode));
+      Serial.println("Response: " + response);
+    } else {
+      Serial.println("Error in sending POST request: " + String(httpResponseCode));
+    }
+
+    // End the HTTP connection
+    http.end();
+  } else {
+    Serial.println("WiFi Disconnected");
+  }
+}
