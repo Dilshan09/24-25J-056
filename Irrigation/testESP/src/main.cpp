@@ -6,6 +6,7 @@
 #include <HTTPClient.h>
 
 // WiFi credentials
+
 const char* ssid = "Dialog 4G 335";
 const char* password = "C48518f3";
 
@@ -109,9 +110,9 @@ void scheduleSensorReadings_1() {
   // Serial.print(" currentHour : ");
   // Serial.println(currentMinute);
 
-  if (currentHour == 21 && (0 <= currentMinute <= 55)) {
+  if (currentHour == 19 && (0 < currentMinute < 59)) {
     if(waterFlow == true){
-      turnOnWaterPump(35); //3.5seconds
+      turnOnWaterPump(300); //3.5seconds
       waterFlow = false;
     }
     // Start reading every 10 minutes from 7:00 AM to 9:00 AM
