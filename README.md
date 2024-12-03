@@ -16,6 +16,8 @@
 
 ## 📈 Architectural diagram
 
+![System Architecture Diagram](/system-architecture.png)
+
 
 ## 🌸 Orchid Species Covered
 
