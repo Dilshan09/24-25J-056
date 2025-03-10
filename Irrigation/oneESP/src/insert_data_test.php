@@ -21,7 +21,7 @@ $temperature = $_POST['temperature'];
 $light = $_POST['light'];
 
 // Prepare SQL query for insertion
-$sql = "INSERT INTO sensor_data (flowerid, humidity, temperature, light) VALUES ('$flowerid', '$humidity', '$temperature', '$light')";
+$sql = "INSERT INTO sensor_data_test (flowerid, humidity, temperature, light) VALUES ('$flowerid', '$humidity', '$temperature', '$light')";
 
 // Execute the query
 if ($conn->query($sql) === TRUE) {
