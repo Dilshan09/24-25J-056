@@ -1,34 +1,40 @@
 import React, { useState, useEffect } from "react";
-import { StatusBar } from 'expo-status-bar';
-import { NavigationContainer, useFocusEffect, useNavigation  } from '@react-navigation/native';
+import { StatusBar } from "expo-status-bar";
+import {
+  NavigationContainer,
+  useFocusEffect,
+  useNavigation,
+} from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-// import React, { useState } from 'react';
-import { StyleSheet, Text, View ,Platform,Image } from 'react-native';
 
-import axios from 'axios';
-import useAuth from './firebase/useAuth';
+import { StyleSheet, Text, View, Platform, Image } from "react-native";
+
+import useAuth from "./firebase/useAuth";
 import { Ionicons } from "@expo/vector-icons"; // For icons
 
-import Login from './screens/Login';
-import Signup from './screens/Signup'; 
-import Home from './screens/Home';
-import Watering from './screens/Watering';
-import WateringForm from './screens/WateringForm';
-import EmergencyWaterForm from './screens/EmergencyWaterForm';
-import DiseaseHome from './screens/DiseaseHome';
-import Fertilizer from './screens/Fertilizer';
-import WateringHistoryList from './screens/WateringHistoryList';
-import FindHome from './screens/FindHome';
-import FindNewOrchids from './screens/FindNewOrchids';
-import FindOrchHistory from './screens/FindOrchHistory';
-import UvLightForm from './screens/UvLightForm';
-import GrowLight from './screens/GrowLight';
-import Profile from './screens/Profile';
+import Login from "./screens/Login";
+import Signup from "./screens/Signup";
+import Home from "./screens/Home";
+import Watering from "./screens/Watering";
+import WateringForm from "./screens/WateringForm";
+import EmergencyWaterForm from "./screens/EmergencyWaterForm";
+import DiseaseHome from "./screens/DiseaseHome";
+import Fertilizer from "./screens/Fertilizer";
+import WateringHistoryList from "./screens/WateringHistoryList";
+import FindHome from "./screens/FindHome";
+import FindNewOrchids from "./screens/FindNewOrchids";
+import FindOrchHistory from "./screens/FindOrchHistory";
+import UvLightForm from "./screens/UvLightForm";
+import GrowLight from "./screens/GrowLight";
+import Profile from "./screens/Profile";
+import MainFertilizer from "./screens/fertilizer/MainFertilizer";
+import CapturePlant from "./screens/fertilizer/CapturePlant";
+import FertilizingRecords from "./screens/fertilizer/FertilizingRecords";
+import PlantRecommendation from "./screens/fertilizer/PlantRecommendation";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-
 
 const BottomTabs = () => {
   return (
@@ -43,71 +49,67 @@ const BottomTabs = () => {
                 source={
                   focused
                     ? require("./assets/images/homeActive.png") // Custom active icon
-                    : require("./assets/images/home.png")       // Custom inactive icon
+                    : require("./assets/images/home.png") // Custom inactive icon
                 }
                 style={{ width: size, height: size }}
                 resizeMode="contain"
               />
             );
-          } 
-          else if (route.name === "FindHome") {
+          } else if (route.name === "FindHome") {
             return (
               <Image
                 source={
                   focused
                     ? require("./assets/images/FindActive.png") // Custom active icon
-                    : require("./assets/images/Find.png")       // Custom inactive icon
+                    : require("./assets/images/Find.png") // Custom inactive icon
                 }
                 style={{ width: size, height: size }}
                 resizeMode="contain"
               />
             );
-          } 
-          else if (route.name === "Watering") {
+          } else if (route.name === "Watering") {
             return (
               <Image
                 source={
                   focused
                     ? require("./assets/images/wateringActive.png") // Custom active icon
-                    : require("./assets/images/watering.png")       // Custom inactive icon
+                    : require("./assets/images/watering.png") // Custom inactive icon
                 }
                 style={{ width: size, height: size }}
                 resizeMode="contain"
               />
             );
-          } 
-          else if (route.name === "DiseaseHome") {
+          } else if (route.name === "DiseaseHome") {
             return (
               <Image
                 source={
                   focused
                     ? require("./assets/images/bugActive.png") // Custom active icon
-                    : require("./assets/images/bug.png")       // Custom inactive icon
+                    : require("./assets/images/bug.png") // Custom inactive icon
                 }
                 style={{ width: size, height: size }}
                 resizeMode="contain"
               />
             );
-          }else if (route.name === "Fertilizer") {
+          } else if (route.name === "Fertilizer") {
             return (
               <Image
                 source={
                   focused
                     ? require("./assets/images/bucketActive.png") // Custom active icon
-                    : require("./assets/images/bucket.png")       // Custom inactive icon
+                    : require("./assets/images/bucket.png") // Custom inactive icon
                 }
                 style={{ width: size, height: size }}
                 resizeMode="contain"
               />
             );
-          }
-          else if (route.name === "Profile") {
+          } else if (route.name === "Profile") {
             return (
               <Image
                 source={
                   focused
                     ? require("./assets/images/profileActive.png") // Custom active icon
-                    : require("./assets/images/profile.png")       // Custom inactive icon
+                    : require("./assets/images/profile.png") // Custom inactive icon
                 }
                 style={{ width: size, height: size }}
                 resizeMode="contain"
@@ -121,12 +123,20 @@ const BottomTabs = () => {
         headerShown: false, // Hide header for bottom tabs
       })}
     >
-      <Tab.Screen name="Home"  component={Home} />
-      <Tab.Screen name="FindHome" options={{ title: "Find" }} component={FindStack} />
-      <Tab.Screen name="Watering"  component={WateringStack} />
-      <Tab.Screen name="DiseaseHome" options={{ title: "Disease" }}  component={DiseaseStack} />
-      <Tab.Screen name="Fertilizer"  component={Fertilizer} />
-      <Tab.Screen name="Profile"  component={Profile} />
+      <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen
+        name="FindHome"
+        options={{ title: "Find" }}
+        component={FindStack}
+      />
+      <Tab.Screen name="Watering" component={WateringStack} />
+      <Tab.Screen
+        name="DiseaseHome"
+        options={{ title: "Disease" }}
+        component={DiseaseStack}
+      />
+      <Tab.Screen name="Fertilizer" component={FertilizerStack} />
+      <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
   );
 };
@@ -146,10 +156,13 @@ const WateringStack = () => {
   }, [navigation]);
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Watering"  component={Watering}  />
+      <Stack.Screen name="Watering" component={Watering} />
       <Stack.Screen name="WateringForm" component={WateringForm} />
       <Stack.Screen name="EmergencyWaterForm" component={EmergencyWaterForm} />
-      <Stack.Screen name="WateringHistoryList" component={WateringHistoryList} />
+      <Stack.Screen
+        name="WateringHistoryList"
+        component={WateringHistoryList}
+      />
     </Stack.Navigator>
   );
 };
@@ -171,7 +184,6 @@ const FindStack = () => {
       <Stack.Screen name="FindHome" component={FindHome} />
       <Stack.Screen name="FindNewOrchids" component={FindNewOrchids} />
       <Stack.Screen name="FindOrchHistory" component={FindOrchHistory} />
-
     </Stack.Navigator>
   );
 };
@@ -192,29 +204,53 @@ const DiseaseStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="DiseaseHome" component={DiseaseHome} />
-       <Stack.Screen name="UvLightForm" component={UvLightForm} />
+      <Stack.Screen name="UvLightForm" component={UvLightForm} />
       <Stack.Screen name="GrowLight" component={GrowLight} />
-
     </Stack.Navigator>
   );
 };
 
+const FertilizerStack = () => {
+  const navigation = useNavigation();
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("tabPress", (e) => {
+      e.preventDefault(); // Prevent default navigation behavior
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "Watering" }],
+      });
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="MainFertilizer" component={MainFertilizer} />
+      <Stack.Screen name="CapturePlant" component={CapturePlant} />
+      <Stack.Screen name="FertilizingRecords" component={FertilizingRecords} />
+      <Stack.Screen
+        name="PlantRecommendation"
+        component={PlantRecommendation}
+      />
+    </Stack.Navigator>
+  );
+};
 
 export default function App() {
-  const {user} = useAuth();
-// if(user){
+  const { user } = useAuth();
+  // if(user){
   return (
     //new creation
-    <View 
+    <View
       style={{
-      marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-      flex: 1,
-    }}>
-     
-        <NavigationContainer>{user ? (
-        
-        <Stack.Navigator>          
-        <Stack.Screen
+        marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+        flex: 1,
+      }}
+    >
+      <NavigationContainer>
+        {user ? (
+          <Stack.Navigator>
+            <Stack.Screen
               name="HomeTabs"
               component={BottomTabs}
               options={{
@@ -224,65 +260,75 @@ export default function App() {
                 headerTitleAlign: "center",
                 headerShown: false, // Hide Stack header
               }}
-            />    
-        </Stack.Navigator>
-        
+            />
+          </Stack.Navigator>
         ) : (
           <Stack.Navigator>
-          {/* <Stack.Screen name="LandingPage" component={LandingPage}  
+            {/* <Stack.Screen name="LandingPage" component={LandingPage}  
           options={{ title: "LandingPage",  headerStyle: { backgroundColor: "black" },  headerShadowVisible: false, headerTitleAlign: "center", headerShown: false,}} /> */}
-          <Stack.Screen
-            name="Login"
-            component={Login}
-            options={{ title: "Login",  headerStyle: { backgroundColor: "black" },headerShadowVisible: false,headerTitleAlign: "center", headerShown: false,  }}    />
-  
-      <Stack.Screen
-                name="Signup"
-                component={Signup}
-                options={{ title: "Signup",  headerStyle: { backgroundColor: "black" },headerShadowVisible: false,headerTitleAlign: "center", headerShown: false,  }}    />
-          
-       </Stack.Navigator>
-        ) }
-      </NavigationContainer>
-     
+            <Stack.Screen
+              name="Login"
+              component={Login}
+              options={{
+                title: "Login",
+                headerStyle: { backgroundColor: "black" },
+                headerShadowVisible: false,
+                headerTitleAlign: "center",
+                headerShown: false,
+              }}
+            />
 
+            <Stack.Screen
+              name="Signup"
+              component={Signup}
+              options={{
+                title: "Signup",
+                headerStyle: { backgroundColor: "black" },
+                headerShadowVisible: false,
+                headerTitleAlign: "center",
+                headerShown: false,
+              }}
+            />
+          </Stack.Navigator>
+        )}
+      </NavigationContainer>
     </View>
   );
 
-// }else{
-//   return ( 
-//     <View 
-//       style={{
-//       marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-//       flex: 1,
-//     }}>        
-//         <NavigationContainer>
-//         <Stack.Navigator>
-//           {/* <Stack.Screen name="LandingPage" component={LandingPage}  
-//           options={{ title: "LandingPage",  headerStyle: { backgroundColor: "black" },  headerShadowVisible: false, headerTitleAlign: "center", headerShown: false,}} /> */}
-//           <Stack.Screen
-//             name="Login"
-//             component={Login}
-//             options={{ title: "Login",  headerStyle: { backgroundColor: "black" },headerShadowVisible: false,headerTitleAlign: "center", headerShown: false,  }}    />
-  
-//       <Stack.Screen
-//                 name="Signup"
-//                 component={Signup}
-//                 options={{ title: "Signup",  headerStyle: { backgroundColor: "black" },headerShadowVisible: false,headerTitleAlign: "center", headerShown: false,  }}    />
-          
-//        </Stack.Navigator>
-//       </NavigationContainer>               
-//     </View>
-//     );
-// }
+  // }else{
+  //   return (
+  //     <View
+  //       style={{
+  //       marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+  //       flex: 1,
+  //     }}>
+  //         <NavigationContainer>
+  //         <Stack.Navigator>
+  //           {/* <Stack.Screen name="LandingPage" component={LandingPage}
+  //           options={{ title: "LandingPage",  headerStyle: { backgroundColor: "black" },  headerShadowVisible: false, headerTitleAlign: "center", headerShown: false,}} /> */}
+  //           <Stack.Screen
+  //             name="Login"
+  //             component={Login}
+  //             options={{ title: "Login",  headerStyle: { backgroundColor: "black" },headerShadowVisible: false,headerTitleAlign: "center", headerShown: false,  }}    />
+
+  //       <Stack.Screen
+  //                 name="Signup"
+  //                 component={Signup}
+  //                 options={{ title: "Signup",  headerStyle: { backgroundColor: "black" },headerShadowVisible: false,headerTitleAlign: "center", headerShown: false,  }}    />
+
+  //        </Stack.Navigator>
+  //       </NavigationContainer>
+  //     </View>
+  //     );
+  // }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
   header: {
     height: 30,
