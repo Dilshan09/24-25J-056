@@ -1,6 +1,6 @@
-# Fertilizer-recommend-fast-api
+# investigation-fast-api
 
-text test ....
+This ML project will predict the number of frauds in the city and predict the city that raises the maximum number of frauds. I have used Random Forest Regressor algorithms to train the model.
 
 ## Create virtual envirment :
 
