@@ -118,6 +118,7 @@ def get_wateringHistory():
 
     return jsonify({"wateringHistory": result,})
 
+routeIrrigation = app
 
 if __name__ == '__main__':
     if APP_NAME == 'orchid_irrigation':
